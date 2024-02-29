@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo/database.dart';
 import 'package:todo/main.dart';
 import 'package:todo/task.dart';
@@ -15,11 +16,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  List checkList = [];
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
+    taskData.isNotEmpty ? addCheck() : null;
+  }
+
+  addCheck(){
+    for(int i=0; i<taskData.length; i++){
+      checkList.add(false);
+    }
   }
 
   @override
@@ -40,17 +49,16 @@ class _HomePageState extends State<HomePage> {
 
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white60,
-        title: const Text("Todo",style: TextStyle(color: Colors.black),),
-      ),
-
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 30,left: 20,right: 20,bottom: 40),
+        toolbarHeight: 60,
+        backgroundColor: Colors.grey,
+        title: const Text("Todo",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 50),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.white60,
-              borderRadius: BorderRadius.circular(21)
+                color: Colors.white60,
+                borderRadius: BorderRadius.circular(10)
             ),
             child: TextField(
               onChanged: (value) {
@@ -63,11 +71,16 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+        ),
+      ),
+
+      body: Column(
+        children: [
 
           Expanded(
             child: ListView.builder(itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
                 child: Slidable(
                   endActionPane: ActionPane(motion: const DrawerMotion(), children: [
                     SlidableAction(
@@ -77,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                         Db().remove(id, Splash.db).then((value) {
                           getData();
                         });
+                        Fluttertoast.showToast(msg: 'Task Deleted !');
                       },
                       icon: Icons.delete,
                       backgroundColor: Colors.red,
@@ -96,7 +110,25 @@ class _HomePageState extends State<HomePage> {
                     tileColor: Colors.white60,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
                     contentPadding: const EdgeInsets.all(8),
-                    leading: const Icon(Icons.task,size: 30,),
+                    leading: Checkbox(
+                      value: checkList.isNotEmpty ? checkList[index] : false,
+                      onChanged: (value) {
+                        if(value == true){
+                          Future.delayed(Duration(seconds: 1),() {
+                            int id = taskData[index]['id'];
+                            Db().remove(id, Splash.db).then((value) {
+                              checkList[index] = false;
+                              getData();
+                            });
+                            Fluttertoast.showToast(msg: 'Task Completed !');
+                          },);
+                        }
+                        setState(() {
+                          addCheck();
+                          checkList[index] = value!;
+                        });
+                      },
+                    ),
                     title: Text("${taskData[index]['title']}",style: const TextStyle(fontSize: 16,),maxLines: 1,),
                     subtitle: Text("${taskData[index]['task']}",maxLines: 1,),
                   ),

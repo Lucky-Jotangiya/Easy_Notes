@@ -6,6 +6,7 @@ import 'package:todo/homepage.dart';
 
 void main(){
   runApp( MaterialApp(
+    debugShowCheckedModeBanner: false,
     routes: {
       '/home' : (context) =>  HomePage(),
     },
