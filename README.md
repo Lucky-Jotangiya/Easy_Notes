@@ -1,4 +1,4 @@
-# todo
+# Easy_Notes
 
 A new Flutter project.
 
