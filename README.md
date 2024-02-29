@@ -4,6 +4,8 @@ Introducing Easy Notes, a Flutter application designed to manage your task proce
 
 In addition to its intuitive deletion capability, Easy Notes empowers users with a comprehensive search functionality, allowing for quick and efficient task retrieval or Users can effortlessly update task details by tapping on the desired task or user marks tasks as completed.
 
+in Easy Notes' ability to save tasks persistently, ensuring that your task list remains intact even after closing and reopening the app. By seamlessly integrating SQLite database functionality, Easy Notes ensures that your tasks are securely stored, ready to be accessed whenever you need them.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
