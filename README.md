@@ -1,6 +1,6 @@
 # Easy_Notes
 
-A new Flutter project.
+Introducing Easy Notes, a Flutter application designed to streamline your task management process effortlessly. With Easy Notes, users can seamlessly add, delete, and update tasks with intuitive functionalities tailored for efficiency. Leveraging the power of the slidable package, Easy Notes introduces a fluid swipe-to-delete feature, enabling users to effortlessly remove tasks by simply swiping right.
 
 ## Getting Started
 
